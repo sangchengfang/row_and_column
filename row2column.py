@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # this script read a text file with x rows times y columns, and output a file with y rows and x column.
+# The length of all rows need to be equal, same for column.
 # for examples：
 # input：                     output：
 #   1 2 3                     1 a 一
@@ -10,65 +11,38 @@
 import sys
 import os
 
-# founction
 
+def row2column(input_file, output_file):
+    column_number = 0
+    # ie. row_length
+    data_dict = {}
 
-def row2column():
-    row_length = []
-    rows = {}
-    with open( input_file , 'r') as fip:
+    with open(input_file, 'r') as fip:
         data = fip.readlines()
-        for i in range(len(data)):
-            data[i] = data[i].replace('\n','')
-        # print(len(data))
-        print(data)
-
-        # i=0
-        # for i in range(len(data)):
-        #     datasplit.append() = data[i].split(' ')
-        #     # print(data[i].split())
-        #     break
-        # print(datasplit)
-
-        # for ele in datasplit[::-1]:
-        #     # print(ele)
-        #     if len(ele) == 0:
-        #         data.remove(ele)
-        # print(datasplit)
-
-        print(len(data))
-        for i in range(len(data)):
-            # for j in range(len(data[i])):
-            row_length.append( len(data[i].split()) )
-            rows['row_' + str(i)] = data[i].split()
-            # print(data[i].split())
-
-        print(row_length)
-        print(rows)
-
+        # print(type(data))
         # print(data)
-        # print(max(row_length))
+        # print(data[0])
+        row_number = len(data)
 
-        # i = 0
-        # j = 0
+        for i in range(len(data)):
+            data_dict['row_' + str(i)] = data[i].split()
 
-        # for key,value in rows.items():
-        #     # print(value)
-        #     for ele in value[::-1]:
-        #         # print(ele)
-        #         if len(ele) == 0:
-        #             value.remove(ele)
-        #     # print(value)
+            if column_number != len(data_dict['row_' + str(i)]):
+                column_number = len(data_dict['row_' + str(i)])
+                # print('column_number first set')
+            else:
+                print('check of column_number pass')
+        # print(data_dict)
 
-        i = 0
-        j = 0
-        with open( output_file ,'a') as fop:
-            for j in range(max(row_length)):
-                for i in range(len(row_length)):
-                    # print(rows['row_' + str(i)][j])
-                    # break
-                    fop.write(rows['row_' + str(i)][j] + ' ')
+        with open(output_file, 'w') as fop:
+            for i in range(column_number):
+                for j in range(row_number):
+                    fop.write(data_dict['row_' + str(j)][i].ljust(4))
                 fop.write('\n')
+
+        # print(len(data))
+        # print(row_number)
+        # print(column_number)
 
 
 # main program
@@ -77,16 +51,21 @@ if len(sys.argv) == 1:
     print('Correct usage: row2column.py input_file_name output_file_name')
     sys.exit()
 else:
-    input_file   = sys.argv[1]
-    output_file  = sys.argv[2]
+    Ginput_file = sys.argv[1]
+    Goutput_file = sys.argv[2]
 
 # check if the file exists
-if not os.path.isfile(input_file):
+if not os.path.isfile(Ginput_file):
     print("Cannot find input file in your system")
     sys.exit()
 
-if not os.path.exists(output_file):
-    print("Cannot find output file in your system")
-    os.system('touch ' + output_file)
+file_path = os.path.split(Ginput_file)
+print(file_path)
 
-row2column()
+if not os.path.exists(file_path[0] + '/' + Goutput_file):
+    print("Cannot find output file in your system, now create it")
+    cmd = 'touch ' + file_path[0] + '/' + Goutput_file
+    print(cmd)
+    os.system(cmd)
+
+row2column(Ginput_file, file_path[0] + '/' + Goutput_file)
