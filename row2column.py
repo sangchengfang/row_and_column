@@ -37,7 +37,7 @@ def row2column(input_file, output_file):
         with open(output_file, 'w') as fop:
             for i in range(column_number):
                 for j in range(row_number):
-                    fop.write(data_dict['row_' + str(j)][i].ljust(4))
+                    fop.write(data_dict['row_' + str(j)][i].ljust(8))
                 fop.write('\n')
 
         # print(len(data))

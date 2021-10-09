@@ -11,7 +11,7 @@ This script uses a dictionary to store the whole file, it can handle the command
 
 # Test examples
 
-`python3 row2column.py ./test/ex_input.dat ex_output.dat`
-`python3 row2column.py /test/ex_input.dat ex_output.dat`
+`python3 row2column.py ./test/r2c_input.dat r2c_output.dat`
+`python3 row2column.py /test/r2c_input.dat r2c_output.dat`
 
 
